@@ -15,7 +15,7 @@ router.get('/students', function (req, res){
     res.send(students)
 })
 
-router.get('/student-details/:name', function(req, res){
+router.get('/student-details/:name/:age', function(req, res){
     /*
     params is an attribute inside request that contains 
     dynamic values.
@@ -32,7 +32,9 @@ router.get('/student-details/:name', function(req, res){
     let studentName = requestParams.name
     console.log('Name of the student is ', studentName)
     
-    res.send('Dummy response')
+    let studentage= requestParams.age
+    console.log('Age is ', studentage)
+    res.send('This is my response')
 })
 
 module.exports = router;
