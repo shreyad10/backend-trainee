@@ -13,8 +13,8 @@ const getUsersData= async function (req, res) {
 
 const createbook = async function (req,res){
     let books = req.body 
-    let givenBook = await UserModel.create (books)
-    res.send({msg : givenBook})
+    let newBook = await UserModel.create (books)
+    res.send({msg : newBook})
 }
 
 const getbooks = async function(req ,res ){
