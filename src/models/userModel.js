@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema( {
     },
     age: Number,
     mobile : {
-        type : Number,
+        type : String,
         unique : true,
         required : true,
     }
@@ -29,16 +29,7 @@ module.exports = mongoose.model('User', userSchema) //users
 
 // ---------------------- BOOK SCHEMA --------------------------
 
-const bookSchema = new mongoose.Schema({
-    bookName : String, 
-    authorName :{
-        type : String,
-    },
-    year : Number ,
-    category : String
-}, {timestamps : true});
 
-module.exports = mongoose.model('bookIssued', bookSchema)
 
 
 
