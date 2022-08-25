@@ -21,6 +21,14 @@ app.use (
   }
   );
 
+ app.use( function (req, res,next) {
+    let date = new Date()
+    let apiname  = req.originalUrl
+     res.send("Your IP Address is - " + req.ip);
+    console.log(date ,req.ip, apiname)
+}
+);
+
 app.use('/', route);
 
 
