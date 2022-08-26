@@ -33,7 +33,8 @@ const createUser= async function (req, res) {
     console.log("Request headers after modificatiom",req.headers)
     
     //Set a header in response
-    res.header('year','2022')
+    // function call 2 parametr
+    res.header('year','2022')  
     res.send({msg: "Hi"})
 }
 
