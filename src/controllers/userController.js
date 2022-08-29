@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
 /*
@@ -31,26 +31,25 @@ const loginUser = async function (req, res) {
   // The decision about what data to put in token depends on the business requirement
   // Input 2 is the secret (This is basically a fixed value only set at the server. This value should be hard to guess)
   // The same secret will be used to decode tokens 
-  let token = jwt.sign(
-    {
-      userId: user._id.toString(),
-      batch: "thorium",
-      organisation: "FunctionUp",
-    },
-    "functionup-plutonium-very-very-secret-key"
-  );
-  res.setHeader("x-auth-token", token);
-  res.send({ status: true, token: token });
+  //   let token = jwt.sign(
+  //     {
+  //       userId: user._id.toString(),
+  //       batch: "plutonium",
+  //       organisation: "FunctionUp-Masters",
+  //       Category :"Bootcamp"
+  //     },
+  //     "functionup-plutonium-very-very-secret-key"
+  //   );
+  //   res.setHeader("x-auth-token", token);
+  //   res.send({ status: true, token: token });
 };
 
+// --------------------------   ASSIGNMENT 26TH AUGUST (AUTHENTICATION)   ------------------------
+
+//------------------- 1st ----------------------------
 const getUserData = async function (req, res) {
-  let token = req.headers["x-Auth-token"];
-  if (!token) token = req.headers["x-auth-token"];
-
-  //If no token is present in the request header return error. This means the user is not logged in.
-  if (!token) return res.send({ status: false, msg: "token must be present" });
-
-  console.log(token);
+  
+  // //If no token is present in the request header return error. This means the user is not logged in.
 
   // If a token is present then decode the token with verify function
   // verify takes two inputs:
@@ -61,18 +60,16 @@ const getUserData = async function (req, res) {
   // Decoding requires the secret again. 
   // A token can only be decoded successfully if the same secret was used to create(sign) that token.
   // And because this token is only known to the server, it can be assumed that if a token is decoded at server then this token must have been issued by the same server in past.
-  let decodedToken = jwt.verify(token, "functionup-plutonium-very-very-secret-key");
-  if (!decodedToken)
-    return res.send({ status: false, msg: "token is invalid" });
+  // let decodedToken = jwt.verify(token, "functionup-plutonium-very-very-secret-key");
+  
 
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
-  if (!userDetails)
-    return res.send({ status: false, msg: "No such user exists" });
-
   res.send({ status: true, data: userDetails });
   // Note: Try to see what happens if we change the secret while decoding the token
 };
+
+//---------------- 2nd ---------------------------
 
 const updateUser = async function (req, res) {
   // Do the same steps here:
@@ -88,11 +85,35 @@ const updateUser = async function (req, res) {
   }
 
   let userData = req.body;
+ 
   let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
-  res.send({ status: updatedUser, data: updatedUser });
+  res.send({ status: true, data: updatedUser });
 };
+
+//-------------------- 3rd ------------------------------
+const deleteUser = async function (req, res) {
+  // Do the same steps here:
+  // Check if the token is present
+  // Check if the token present is a valid token
+  // Return a different error message in both these cases
+
+  let userId = req.params.userId;
+  let user = await userModel.findById(userId);
+  //Return an error if no user with the given id exists in the db
+  if (!user) {
+    return res.send("No such user exists");
+  }
+  userId.isDeleted = true
+  res.send({ status: true, msg: "User has been deleted" });
+};
+
 
 module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
+
+// --------------- Assignment modules--------------------------
+
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
+module.exports.deleteUser = deleteUser;
+
