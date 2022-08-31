@@ -10,7 +10,7 @@ const createBook = async function (req, res) {
             let savedData = await BookModel.create(data)
             res.status(201).send({ msg: savedData })
         }
-        else res.status(400).send({ msg: "BAD REQUEST"})
+        else res.status(400).send({ msg: "Enter some data"})
     }
     catch (err) {
         console.log("This is the error :", err.message)
