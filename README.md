@@ -1,1 +1,1 @@
-# plutonium
+Plutonium repository - session & assignment
